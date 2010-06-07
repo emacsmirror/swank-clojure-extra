@@ -1,5 +1,5 @@
-;;; swank-clojure-extra.el
-;;    Some handy utilities for using swank-clojure with slime
+;;; swank-clojure-extra.el --- Some handy utilities for using
+;;                             swank-clojure with slime.
 ;;
 ;; Copyright (C) 2008-2010 Jeffrey Chu and Phil Hagelberg
 ;;
