@@ -13,5 +13,18 @@ This project is an offshoot of swank-clojure and was created as an attempt
 to separate emacs specific utilities which got added over a period of time
 into swank-clojure.el into a separate project. 
 
+* Usage
+
+In your ~/.emacs file, add the swank-clojure-extra into your load-path
+and load it.
+
+(add-to-list 'load-path "~/src/swank-clojure-extra")
+(require 'swank-clojure-extra)
+
+** Customization
+
+swank-clojure-extra provides the a few variables which can be customized
+from your emacs configuration files.
+
 [1] http://common-lisp.net/project/slime/
 [2] http://github.com/technomancy/swank-clojure
