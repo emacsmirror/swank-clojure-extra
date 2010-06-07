@@ -1,11 +1,13 @@
 ;;; swank-clojure-extra.el --- Some handy utilities for using
 ;;                             swank-clojure with slime.
 ;;
-;; Copyright (C) 2008-2010 Jeffrey Chu and Phil Hagelberg
+;; Copyright (C) 2008, 2009, 2010 Jeffrey Chu,
+;;                                Phil Hagelberg
+;;                                Ramakrishnan Muthukrishnan
 ;;
 ;; Authors: Jeffrey Chu <jochu0@gmail.com>
 ;;          Phil Hagelberg <technomancy@gmail.com>
-;;
+;;          Ramakrishnan Muthukrishnan <vu3rdd@gmail.com>
 ;; URL: http://github.com/vu3rdd/swank-clojure-extra
 ;; Version: 1.1.0
 ;; Keywords: languages, lisp
@@ -17,26 +19,21 @@
 ;;
 ;; The purpose of this file is to set up `slime-lisp-implementations'
 ;; to allow SLIME to communicate with the Swank server implemented in
-;; Clojure. There are four ways to launch a session:
+;; Clojure. There are mainly 3 ways to launch a session:
 ;;
-;; 1. Standalone: If you just hit M-x slime, swank-clojure will
-;;    download the jars for Clojure, contrib, and swank-clojure,
-;;    launch an instance, and connect to it. If you just want to try
-;;    out Clojure, this is all you need. Just get Swank Clojure
-;;    through package.el (http://tromey.com/elpa) and stop reading here.
+;; 1. Standalone: Configure the swank-clojure-classpath with the
+;;    paths of the jars you wish to use (this should include clojure
+;;    and swank-clojure at the minimum and may also include
+;;    clojure-contrib)and hit M-x slime. 
 ;;
-;; 2. Custom classpath: If you want to hack on Clojure or Contrib, set
-;;    swank-clojure-classpath to a list of paths to the jars you want to
-;;    use and then hit M-x slime.
-;;
-;; 3. Project: Put your project's dependencies (either manually or using
+;; 2. Project: Put your project's dependencies (either manually or using
 ;;    Leiningen or Maven) in the directory named by
 ;;    `swank-clojure-project-dep-path' (lib/ by default), then launch M-x
 ;;    swank-clojure-project. Note that the directory must contain
-;;    swank-clojure.jar, it will not automatically be added to the
-;;    classpath as it was in past versions that had to run from a checkout.
+;;    swank-clojure in the classpath (either swank-clojure.jar or the
+;;    swank-clojure source repo), it will not automatically be added.
 ;;
-;; 4. Standalone Server: Users of leiningen or clojure-maven-plugin
+;; 3. Standalone Server: Users of leiningen or clojure-maven-plugin
 ;;    can launch a server from a shell
 ;;    (http://wiki.github.com/technomancy/leiningen/emacs-integration)
 ;;    and connect to it from within Emacs using M-x slime-connect.
@@ -365,4 +362,4 @@ The `path' variable is bound to the project root when these functions run.")
         (slime 'clojure)))))
 
 (provide 'swank-clojure-extra)
-;;; swank-clojure.el ends here
+;;; swank-clojure-extra.el ends here
