@@ -79,7 +79,10 @@ within ~/.clojure/ and ~/.swank-clojure"
   :group 'swank-clojure)
 
 ;; For backwards-compatibility:
-(defvaralias 'swank-clojure-extra-classpaths 'swank-clojure-classpath)
+(defcustom swank-clojure-extra-classpaths nil
+    "Extra project specific classpaths that can be added during load time."
+  :type 'list
+  :group 'swank-clojure)
 
 (defcustom swank-clojure-library-paths nil
   "The library paths used when loading shared libraries,
@@ -223,7 +226,6 @@ will be used over paths too.)"
 ;;;###autoload
 (defun swank-clojure-cmd ()
   "Create the command to start clojure according to current settings."
-  (swank-clojure-check-install)
   (if swank-clojure-binary
       (if (listp swank-clojure-binary)
           swank-clojure-binary
@@ -238,7 +240,8 @@ will be used over paths too.)"
          (concat "-Djava.library.path="
                  (swank-clojure-concat-paths swank-clojure-library-paths)))
        "-classpath"
-       (swank-clojure-concat-paths swank-clojure-classpath)
+       (swank-clojure-concat-paths (append swank-clojure-classpath
+					   swank-clojure-extra-classpaths))
        "clojure.main")
       (let ((init-opts '()))
         ;; TODO: cleanup
@@ -249,6 +252,7 @@ will be used over paths too.)"
 
 (defun swank-clojure-reset-implementation ()
   "Redefines the clojure entry in `slime-lisp-implementations'."
+  (require 'assoc)  
   (aput 'slime-lisp-implementations 'clojure
         (list (swank-clojure-cmd) :init 'swank-clojure-init)))
 
@@ -257,7 +261,6 @@ will be used over paths too.)"
   ;; Unfortunately we need to construct our Clojure-launching command
   ;; at slime-launch time to reflect changes in the classpath. Slime
   ;; has no mechanism to support this, so we must resort to advice.
-  (require 'assoc)
   (swank-clojure-reset-implementation))
 
 ;; Change the repl to be more clojure friendly
@@ -326,30 +329,31 @@ The `path' variable is bound to the project root when these functions run.")
 
   (let ((slime-lisp-implementations (copy-list slime-lisp-implementations))
         (swank-clojure-extra-vm-args (copy-list swank-clojure-extra-vm-args))
+	(swank-clojure-classpath (copy-list swank-clojure-classpath))
         (swank-clojure-binary nil)
-        (swank-clojure-classpath (let ((l (expand-file-name
-                                           swank-clojure-project-dep-path path)))
-                                   (if (file-directory-p l)
-                                       (append
-                                        (directory-files l t ".jar$")
-                                        (remove-if-not
-                                         'directoryp
-                                         (directory-files l t "^[^\\.]")))))))
-
-    (add-to-list 'swank-clojure-classpath (expand-file-name "classes/" path))
-    (add-to-list 'swank-clojure-classpath (expand-file-name "src/" path))
-    (add-to-list 'swank-clojure-classpath (expand-file-name "test/" path))
-    (add-to-list 'swank-clojure-classpath (expand-file-name "resources/" path))
+        (swank-clojure-extra-classpaths (let ((l (expand-file-name
+						  swank-clojure-project-dep-path path)))
+					  (if (file-directory-p l)
+					      (append
+					       (directory-files l t ".jar$")
+					       (remove-if-not
+						'directoryp
+						(directory-files l t "^[^\\.]")))))))
+    
+    (add-to-list 'swank-clojure-extra-classpaths (expand-file-name "classes/" path))
+    (add-to-list 'swank-clojure-extra-classpaths (expand-file-name "src/" path))
+    (add-to-list 'swank-clojure-extra-classpaths (expand-file-name "test/" path))
+    (add-to-list 'swank-clojure-extra-classpaths (expand-file-name "resources/" path))
 
     ;; For Maven style project layouts
     (when (file-exists-p (expand-file-name "pom.xml" path))
       (dolist (d '("src/main/clojure/" "src/test/clojure/"
                    "target/test-classes/" "target/classes/" "target/dependency/"))
-        (add-to-list 'swank-clojure-classpath (expand-file-name d path) t))
+        (add-to-list 'swank-clojure-extra-classpaths (expand-file-name d path) t))
       (dolist (d (let ((l (expand-file-name "target/dependency/" path)))
                    (if (file-directory-p l)
                        (directory-files l t ".jar$"))))
-        (add-to-list 'swank-clojure-classpath (expand-file-name d path) t))
+        (add-to-list 'swank-clojure-extra-classpaths (expand-file-name d path) t))
       (add-to-list 'swank-clojure-extra-vm-args
                    (format "-Dclojure.compile.path=%s"
                            (expand-file-name "target/classes/" path))))
