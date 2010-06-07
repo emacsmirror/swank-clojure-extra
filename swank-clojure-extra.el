@@ -1,23 +1,19 @@
-;;; swank-clojure.el --- slime adapter for clojure
+;;; swank-clojure-extra.el
+;;    Some handy utilities for using swank-clojure with slime
 ;;
 ;; Copyright (C) 2008-2010 Jeffrey Chu and Phil Hagelberg
 ;;
 ;; Authors: Jeffrey Chu <jochu0@gmail.com>
 ;;          Phil Hagelberg <technomancy@gmail.com>
 ;;
-;; URL: http://github.com/technomancy/swank-clojure
+;; URL: http://github.com/vu3rdd/swank-clojure-extra
 ;; Version: 1.1.0
 ;; Keywords: languages, lisp
-;; Package-Requires: ((slime-repl "20091016") (clojure-mode "1.6"))
 ;;
 ;; This file is licensed under the terms of the GNU General Public
 ;; License as distributed with Emacs (press C-h C-c to view it).
 ;;
 ;;; Commentary:
-;;
-;; NOTE: swank-clojure.el is currently unmaintained. Please see the
-;; swank-clojure readme for examples of how to start a swank server
-;; from your build tool and connect to it via SLIME.
 ;;
 ;; The purpose of this file is to set up `slime-lisp-implementations'
 ;; to allow SLIME to communicate with the Swank server implemented in
@@ -364,5 +360,5 @@ The `path' variable is bound to the project root when these functions run.")
       (let ((default-directory path))
         (slime 'clojure)))))
 
-(provide 'swank-clojure)
+(provide 'swank-clojure-extra)
 ;;; swank-clojure.el ends here
