@@ -26,5 +26,25 @@ and load it.
 swank-clojure-extra provides the a few variables which can be customized
 from your emacs configuration files.
 
+Here is what I have in my ~/.emacs file:
+
+(setq  swank-clojure-classpath (append (list "/usr/share/java/clojure.jar"
+					     "~/src/swank-clojure/src"
+					     "~/.clojure")
+				       (directory-files "/usr/share/java/"
+							t
+							".jar$")))
+
+(eval-after-load "slime"
+  '(progn
+     (require 'swank-clojure-extra)
+     (add-to-list 'slime-lisp-implementations `(clojure ,(swank-clojure-cmd)
+							:init swank-clojure-init)
+		  t)
+     (add-hook 'slime-indentation-update-hooks 'swank-clojure-update-indentation)
+     (add-hook 'slime-repl-mode-hook 'swank-clojure-slime-repl-modify-syntax t)
+     (add-hook 'clojure-mode-hook 'swank-clojure-slime-mode-hook t)))
+
+
 [1] http://common-lisp.net/project/slime/
 [2] http://github.com/technomancy/swank-clojure
