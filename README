@@ -11,7 +11,10 @@ swank-clojure [2]. The extras provided by this package includes
 
 This project is an offshoot of swank-clojure and was created as an attempt
 to separate emacs specific utilities which got added over a period of time
-into swank-clojure.el into a separate project. 
+into swank-clojure.el into a separate project. The rationale behind this
+split is explained in this thread:
+
+ <http://groups.google.com/group/swank-clojure/browse_thread/thread/e6656cc66c5ac15f>
 
 * Usage
 
