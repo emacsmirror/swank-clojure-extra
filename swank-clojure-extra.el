@@ -39,6 +39,8 @@
 ;;    can launch a server from a shell
 ;;    (http://wiki.github.com/technomancy/leiningen/emacs-integration)
 ;;    and connect to it from within Emacs using M-x slime-connect.
+;;    `swank-clojure-lein-swank' can be used to start a leiningen
+;;    interactively from emacs.
 ;;
 ;;; Code:
 ;;
