@@ -4,10 +4,12 @@
 ;; Copyright (C) 2008, 2009, 2010 Jeffrey Chu,
 ;;                                Phil Hagelberg
 ;;                                Ramakrishnan Muthukrishnan
+;;                                Juergen Hoetzel
 ;;
 ;; Authors: Jeffrey Chu <jochu0@gmail.com>
 ;;          Phil Hagelberg <technomancy@gmail.com>
 ;;          Ramakrishnan Muthukrishnan <vu3rdd@gmail.com>
+;;          Juergen Hoetzel <juergen@archlinux.org>
 ;; URL: http://github.com/vu3rdd/swank-clojure-extra
 ;; Version: 1.1.0
 ;; Keywords: languages, lisp
