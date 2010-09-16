@@ -342,15 +342,19 @@ The `path' variable is bound to the project root when these functions run.")
         (swank-clojure-extra-classpaths (let ((l (expand-file-name
 						  swank-clojure-project-dep-path path))
 					      (d (expand-file-name "lib/dev" path)))
-					  (if (file-directory-p l)
-                                              (append
-                                               (directory-files l t ".jar$")
-                                               (remove-if-not 'directoryp
-                                                              (directory-files l t "^[^\\.]")))
-                                            (append
-                                             (directory-files d t ".jar$")
-                                             (remove-if-not 'directoryp
-                                                            (directory-files d t "^[^\\.]")))))))
+					  (append
+					   (if (file-directory-p l) 
+					       (append 
+						(directory-files l t ".jar$")
+						(remove-if-not 'directoryp
+							       (directory-files l t "^[^\\.]"))))
+					   
+					   (if (file-directory-p d) 
+					       (append 
+						(directory-files d t ".jar$")
+						(remove-if-not 'directoryp
+							       (directory-files d t "^[^\\.]")))))
+					  )))
     
     (add-to-list 'swank-clojure-extra-classpaths (expand-file-name "classes/" path))
     (add-to-list 'swank-clojure-extra-classpaths (expand-file-name "src/" path))
